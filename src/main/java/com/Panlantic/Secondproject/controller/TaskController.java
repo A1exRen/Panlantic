@@ -8,19 +8,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequestMapping
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/")
+    @GetMapping(value="/")
     public String getAll(Model model) {
         List<Task> taskList = taskService.getAll();
         model.addAttribute("taskList", taskList);
         model.addAttribute("taskSize", taskList.size());
         return "index";
+    }
+
+    @GetMapping(path = "/find-task-ById/{id}", params = {"id"})
+    public Optional<Task> getTaskById(@PathVariable Integer id) {
+        return taskService.getTask(id);
+    }
+
+    @PostMapping(path = "/update")
+    public String update(@RequestParam("id") Integer id, @RequestParam("name") String status) {
+        taskService.updateStatusById(id, status);
+        return "redirect:/";
     }
 
     @RequestMapping("/delete/{id}")
@@ -30,8 +43,13 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public String addTask(@ModelAttribute Task task) {
+    public String addTask(@RequestBody Task task) {
         taskService.save(task);
-        return "redirect:/";
+        return "Task ID:"+""+task.getId();
     }
+
+
+
 }
+
+//*spring path variables + spring postbody
