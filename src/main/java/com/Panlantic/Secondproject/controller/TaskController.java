@@ -32,7 +32,7 @@ public class TaskController {
         return new ResponseEntity<String>("Wrong token", HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping("/find-task-ById")
+    @GetMapping("/find-task-ById") // Поиск по Id
     public ResponseEntity<?> getTaskById(@RequestParam("id") Integer id) {
         Optional<Task> task = taskService.getTask(id);
         return task.isPresent()
