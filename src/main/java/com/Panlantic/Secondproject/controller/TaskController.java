@@ -5,12 +5,13 @@ import com.Panlantic.Secondproject.entity.Task;
 import com.Panlantic.Secondproject.entity.TaskDto;
 import com.Panlantic.Secondproject.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -20,35 +21,47 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping(value = "/")
-    public String getAll(Model model) {
-        List<Task> taskList = taskService.getAll();
-        model.addAttribute("taskList", taskList);
-        model.addAttribute("taskSize", taskList.size());
-        return "index";
+    @GetMapping("/")
+    public ResponseEntity<?> getAll(@RequestParam("token") String token, Model model) {
+        if (token.equals("fk3v30s2@4$13")) {//Токен администратора
+            Collection<Task> taskList = taskService.getAll();
+            model.addAttribute("taskList", taskList);
+            model.addAttribute("taskSize", taskList.size());
+            return ResponseEntity.ok(taskList);
+        }
+        return new ResponseEntity<String>("Wrong token", HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping(path = "/find-task-ById/{id}", params = {"id"})
-    public Optional<Task> getTaskById(@PathVariable Integer id) {
-        return taskService.getTask(id);
+    @GetMapping("/find-task-ById")
+    public ResponseEntity<?> getTaskById(@RequestParam("id") Integer id) {
+        Optional<Task> task = taskService.getTask(id);
+        return task.isPresent()
+                ? ResponseEntity.ok(task)
+                : ResponseEntity.ok().body(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(path = "/update")
-    public String update(@RequestParam("id") Integer id, @RequestParam("name") String status) {
-        taskService.updateStatusById(id, status);
-        return "redirect:/";
+    @PostMapping("/update") // Изменения статуса заявки
+    public ResponseEntity<String> update(@RequestParam("id") Integer id, @RequestParam("status") String status, @RequestParam("token") String token) {
+        if (token.equals("fk3v30s2@4$13")) {//Токен администратора
+            String l = taskService.updateStatusById(id, status);
+            return new ResponseEntity<String>(l, HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Wrong token", HttpStatus.FORBIDDEN);
     }
 
-    @RequestMapping("/delete/{id}")
-    public String deleteTask(@PathVariable int id) {
-        taskService.delete(id);
-        return "redirect:/";
+    @GetMapping("/delete")// Удаление заявки
+    public ResponseEntity<String> deleteTask(@RequestParam("id") Integer id, @RequestParam("token") String token) {
+        if (token.equals("fk3v30s2@4$13")) {//Токен администратора
+            taskService.delete(id);
+            return new ResponseEntity<String>("Task was deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Wrong token", HttpStatus.FORBIDDEN);
     }
 
-    @PostMapping(value ="/add")
-    public String addTask(@RequestBody TaskDto TaskDto) {
-
-        return "Task id:"+""+taskService.savenewTask(TaskDto);
+    @PostMapping("/add")
+    public ResponseEntity addTask(@RequestBody TaskDto TaskDto) {
+        Integer k = taskService.createTask(TaskDto);
+        return new ResponseEntity<String>("Task id is:" + " " + k, HttpStatus.OK);
     }
 }
 

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static com.Panlantic.Secondproject.utils.MappingUtils.mapToEntity;
@@ -19,7 +19,7 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public List<Task> getAll() {
+    public Collection<Task> getAll() {
         return taskRepository.findAll(Sort.by(Sort.Order.asc("datecreate")));
     }
 
@@ -27,16 +27,29 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public void updateStatusById(Integer id, String status ) {
+    public String updateStatusById(Integer id, String status ) {
         Optional<Task> currentTaskOptional = taskRepository.findById(id);
         Task currentTask = currentTaskOptional.get();
         Date date = new Date();
-        currentTask.setDatechange(date);
-        currentTask.setStatus(status);
-        taskRepository.save(currentTask);
+        if (currentTask.getStatus().equals("Open") & status.equals("In work")) {
+            currentTask.setDatechange(date);
+            currentTask.setStatus(status);
+            currentTask.setResponsible("Administrator");
+            taskRepository.save(currentTask);
+            return "Status of task:"+""+status;
+        }else {
+            if ((currentTask.getStatus().equals("In work") & status.equals("Closed"))){
+                currentTask.setDatechange(date);
+                currentTask.setStatus(status);
+                currentTask.setResponsible("Administrator");
+                taskRepository.save(currentTask);
+                return "Status of task:"+""+status;
+            }
+        }
+        return "Wrong status";
     }
 
-    public Integer savenewTask(TaskDto TaskDto) {
+    public Integer createTask(TaskDto TaskDto) {
         Task task  = mapToEntity(TaskDto);
         Date date = new Date();
         task.setDatecreate(date);
