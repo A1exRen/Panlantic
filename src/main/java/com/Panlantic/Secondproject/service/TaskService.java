@@ -52,8 +52,7 @@ public class TaskService {
     public Integer createTask(TaskDto TaskDto) {
         Task task  = mapToEntity(TaskDto);
         Date date = new Date();
-        task.setDatecreate(date);
-        task.setDatechange(null);
+        task.setDatecreate(date); //Исправить регистр слов
         task.setStatus("Open");
         task.setResponsible("not appointed");
         taskRepository.save(task);

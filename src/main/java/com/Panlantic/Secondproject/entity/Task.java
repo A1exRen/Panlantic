@@ -58,13 +58,13 @@ public class Task {
     public void setDescription(String description) {
         this.description= description;
     }
-    public Date getDatecreate(Date datecreate) {
+    public Date getDatecreate() {
         return datecreate;
     }
     public void setDatecreate(Date datecreate) {
         this.datecreate = datecreate;
     }
-    public Date getDatechange(Date datechange) {
+    public Date getDatechange() {
         return datechange;
     }
     public void setDatechange(Date datechange) {
@@ -76,7 +76,7 @@ public class Task {
     public void setResponsible(String responsible) {
         this.responsible= responsible;
     }
-    public String getAutor(String autor) {
+    public String getAutor() {
         return autor;
     }
     public void setAutor(String autor) {

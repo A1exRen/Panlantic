@@ -59,10 +59,11 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addTask(@RequestBody TaskDto TaskDto) {
+    public ResponseEntity<?> addTask(@RequestBody TaskDto TaskDto) {
         Integer k = taskService.createTask(TaskDto);
         return new ResponseEntity<String>("Task id is:" + " " + k, HttpStatus.OK);
     }
 }
 
 //*spring path variables + spring postbody
+//* отправить exception  в случае неправильного токена
