@@ -1,11 +1,11 @@
 package com.Panlantic.Secondproject.entity;
 
 
-import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import java.text.SimpleDateFormat;
+import javax.persistence.Id;
+import java.util.Date;
 
 
 @Entity
@@ -16,15 +16,15 @@ public class Task {
     private String name;
     private String status;
     private String description;
-    private SimpleDateFormat datecreate;
-    private SimpleDateFormat datechange;
+    private Date datecreate;
+    private Date datechange;
     private String responsible;
     private String autor;
 
     public Task() {
     }
 
-    public Task(Integer id, String name, String status, String description,SimpleDateFormat datecreate, SimpleDateFormat datechange, String responsible, String autor) {
+    public Task(Integer id, String name, String status, String description,Date datecreate, Date datechange, String responsible, String autor) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -58,16 +58,16 @@ public class Task {
     public void setDescription(String description) {
         this.description= description;
     }
-    public SimpleDateFormat getDatecreate(SimpleDateFormat datecreate) {
+    public Date getDatecreate(Date datecreate) {
         return datecreate;
     }
-    public void setDatecreate(SimpleDateFormat datecreate) {
+    public void setDatecreate(Date datecreate) {
         this.datecreate = datecreate;
     }
-    public SimpleDateFormat getDatechange(SimpleDateFormat datechange) {
+    public Date getDatechange(Date datechange) {
         return datechange;
     }
-    public void setDatechange(SimpleDateFormat datechange) {
+    public void setDatechange(Date datechange) {
         this.datechange = datechange;
     }
     public String getResponsible() {
@@ -82,5 +82,4 @@ public class Task {
     public void setAutor(String autor) {
         this.autor= autor;
     }
-
 }

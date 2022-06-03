@@ -1,11 +1,14 @@
 package com.Panlantic.Secondproject.controller;
 
+
 import com.Panlantic.Secondproject.entity.Task;
+import com.Panlantic.Secondproject.entity.TaskDto;
 import com.Panlantic.Secondproject.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +20,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     public String getAll(Model model) {
         List<Task> taskList = taskService.getAll();
         model.addAttribute("taskList", taskList);
@@ -42,14 +45,11 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @PostMapping("/add")
-    public String addTask(@RequestBody Task task) {
-        taskService.save(task);
-        return "Task ID:"+""+task.getId();
+    @PostMapping(value ="/add")
+    public String addTask(@RequestBody TaskDto TaskDto) {
+
+        return "Task id:"+""+taskService.savenewTask(TaskDto);
     }
-
-
-
 }
 
 //*spring path variables + spring postbody
