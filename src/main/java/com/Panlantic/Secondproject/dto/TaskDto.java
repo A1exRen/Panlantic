@@ -1,4 +1,4 @@
-package com.Panlantic.Secondproject.entity;
+package com.Panlantic.Secondproject.dto;
 
 public class TaskDto {
 

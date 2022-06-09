@@ -1,7 +1,7 @@
 package com.Panlantic.Secondproject.utils;
 
 import com.Panlantic.Secondproject.entity.Task;
-import com.Panlantic.Secondproject.entity.TaskDto;
+import com.Panlantic.Secondproject.dto.TaskDto;
 
 
 public class MappingUtils {

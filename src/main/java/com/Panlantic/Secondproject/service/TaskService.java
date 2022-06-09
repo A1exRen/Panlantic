@@ -1,7 +1,7 @@
 package com.Panlantic.Secondproject.service;
 
 import com.Panlantic.Secondproject.entity.Task;
-import com.Panlantic.Secondproject.entity.TaskDto;
+import com.Panlantic.Secondproject.dto.TaskDto;
 import com.Panlantic.Secondproject.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,7 +27,7 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public String updateStatusById(Integer id, String status ) {
+    public String updateStatusById(Integer id, String status ) throws  {
         Optional<Task> currentTaskOptional = taskRepository.findById(id);
         Task currentTask = currentTaskOptional.get();
         Date date = new Date();
