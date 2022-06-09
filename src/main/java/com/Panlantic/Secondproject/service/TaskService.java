@@ -1,7 +1,7 @@
 package com.Panlantic.Secondproject.service;
 
-import com.Panlantic.Secondproject.entity.Task;
 import com.Panlantic.Secondproject.dto.TaskDto;
+import com.Panlantic.Secondproject.entity.Task;
 import com.Panlantic.Secondproject.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,27 +27,28 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public String updateStatusById(Integer id, String status ) throws  {
-        Optional<Task> currentTaskOptional = taskRepository.findById(id);
-        Task currentTask = currentTaskOptional.get();
-        Date date = new Date();
-        if (currentTask.getStatus().equals("Open") & status.equals("In work")) {
-            currentTask.setDatechange(date);
-            currentTask.setStatus(status);
-            currentTask.setResponsible("Administrator");
-            taskRepository.save(currentTask);
-            return "Status of task:"+""+status;
-        }else {
-            if ((currentTask.getStatus().equals("In work") & status.equals("Closed"))){
+    public String updateStatusById(Integer id, String status ) {
+            Optional<Task> currentTaskOptional = taskRepository.findById(id);
+            Task currentTask = currentTaskOptional.get();
+            Date date = new Date();
+            if (currentTask.getStatus().equals("Open") & status.equals("In work")) {
                 currentTask.setDatechange(date);
                 currentTask.setStatus(status);
                 currentTask.setResponsible("Administrator");
                 taskRepository.save(currentTask);
-                return "Status of task:"+""+status;
+                return "Status of task:" + "" + status;
+            } else {
+                if ((currentTask.getStatus().equals("In work") & status.equals("Closed"))) {
+                    currentTask.setDatechange(date);
+                    currentTask.setStatus(status);
+                    currentTask.setResponsible("Administrator");
+                    taskRepository.save(currentTask);
+                    return "Status of task:" + "" + status;
+                }
             }
-        }
-        return "Wrong status";
+            return "Wrong status";
     }
+
 
     public Integer createTask(TaskDto TaskDto) {
         Task task  = mapToEntity(TaskDto);
